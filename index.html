@@ -1,0 +1,189 @@
+<!--Toda honra e glória para o SENHOR-->
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>books.com</title>
+        <meta name="description" content="Loja de livros online">
+        <meta name="robots" content="index, follow">
+        <meta name="author" content="Jhone Dourado">
+
+        <link rel="icon" href="./icon.jpg">
+
+        <link rel="stylesheet" type="text/css" href="./page-home.css">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
+
+        <script src="./produtos.js"></script>
+    </head>
+
+
+    <body>        
+        <header class="cabecalho">
+            <div class="container">
+                <div class="todo-cabecalho">
+                    <a class="logo-header" href="./index.html">books.com</a>
+                    <a class="btn-cart" href="#">Carrinho<i class="fas fa-shopping-cart"></i><p class="bola"></p></a>
+                    <a class="fechaCart">X</a>
+                </div>
+            </div>
+        </header>
+
+
+        <main class="conteudos">
+
+            <section class="banner">
+                <div class="container">
+                    <div class="todo-banner">
+                        <header class="texto-banner">
+                            <h1>Levamos o conhecimento através de ambientes confortáveis e interativos.</h1>
+                            <h2>Confira as nossas ofertas!</h2>
+                        </header>
+                        <img class="ilustracaoCapa" src="./ilustracaoCapa.png" alt="Menina lendo livro">
+                    </div>
+                </div>
+            </section>
+
+
+            <section id="produtos">
+                <script>
+                    inicializarLoja = () => {
+                        var containerProdutos = document.getElementById('produtos');
+                        
+                        items.map((val)=>{
+                            containerProdutos.innerHTML+= `
+                            <div class="produto-single">
+                            <img src="`+val.img+`">
+                            <p class="nome">`+val.nome+`</p>
+                            <p class="preco">`+val.preco+`</p>
+                            <p class="dividido">`+val.dividido+`</p>
+                            <p class="descricao">`+val.descricao+`</p>
+                            <a class="addCart" key="`+val.id+`" href="#">Adicionar ao carrinho</a>
+                            </div>
+                            
+                            `;
+                        })
+                    }
+                    
+                    inicializarLoja();
+                </script>
+            </section>
+            
+
+            <div id="avisoAddCart">
+                <p>Produto Adicionado</p>
+            </div>
+
+
+            <section id="carrinho">
+                <div id="productsCart">
+
+                </div>
+
+                <div class="comprarLimpar">
+                    <a class="zap" href="#">Comprar pelo zap</a>
+                    <a class="limpar" href="./index.html">Limpar Carrinho</a>
+                </div>
+
+                <script>
+                    atualizarCarrinho = () => {
+                    var containerCarrinho = document.getElementById('productsCart');
+                    containerCarrinho.innerHTML = "";
+
+                    items.map((val)=> {
+                       if(val.quantidade > 0) {
+                       containerCarrinho.innerHTML+= `
+   
+                        <div class="produto-cart">
+                        <img class="imgCart" src="`+val.img+`">
+                        <p class="nomeCart">`+val.nome+` </p>
+                        <p class="precoCart">`+val.preco+` </p>
+                        <p class="quantCart">Quantidade: `+val.quantidade+` </p>
+                        </div>
+                       
+                       `;
+                       }
+                    })
+                    }
+
+                    var addCart = document.getElementsByClassName('addCart'); 
+                    for(var i = 0; i < addCart.length; i++){
+                        addCart[i].addEventListener("click",function(){
+                            let key = this.getAttribute('key');
+                            items[key].quantidade++;
+                            atualizarCarrinho();
+                            event.preventDefault();
+                        })
+                    }
+                </script>
+
+                <script>
+                    $('.btn-cart').on('click', function() { 
+                        $('html, body').animate({
+                            scrollTop: $("#carrinho").offset().top
+                        }, 0);
+
+                        $('.banner').hide();
+                        $('#produtos').hide();
+                        $('#rodape').hide();
+                        $('#carrinho').show();
+
+                        $('.fechaCart').addClass('block');
+                        $('.btn-cart').addClass('block3');
+                        event.preventDefault();
+                    });
+
+                    $('.fechaCart').on('click', function() { 
+                        $('.banner').show();
+                        $('#produtos').show();
+                        $('#rodape').show();
+                        $('#carrinho').hide();
+
+                        $('.fechaCart').removeClass('block');
+                        $('.btn-cart').removeClass('block3');
+                        event.preventDefault();
+                    });
+
+                    $('.addCart').on('click', function() { 
+                        $('#avisoAddCart').fadeIn('50').delay( 1200 );
+                        $('#avisoAddCart').fadeOut('50');  
+                        $('.bola').fadeIn();
+                    }); 
+                    
+                    $('.zap').on('click', function() { 
+                        $(location).attr("href", "https://api.whatsapp.com/send?phone=+5574988581824&text=" + encodeURI("Olá, gostaria de pedir:\n\n" + $('#productsCart').text()));
+                    });  
+                </script>
+            </section>
+        </main>
+
+
+        <footer id="rodape">
+            <div class="container">
+                <div class="todo-cabecalho">
+                    <div class="ultra">
+                        <p>books.com</p>
+                        <a class="link-politica" href="#">política de privacidade</a>
+                    </div>
+            
+                    <div class="redes">
+                        <!--facebook-->
+                        <a href="https://www.facebook.com/Ultra-Technology-106919837789485" target="_blank"><i class="fab fa-facebook-square fa-lg"></i></a>
+                        <!--instagram-->
+                        <a href="https://www.instagram.com/ultra._.technology/" target="_blank"><i class="fab fa-instagram fa-lg"></i></a>
+                        <!--email-->
+                        <a href="mailto:ultratechnoloogy.contato@gmail.com" target="_blank"><i class="far fa-envelope fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>
